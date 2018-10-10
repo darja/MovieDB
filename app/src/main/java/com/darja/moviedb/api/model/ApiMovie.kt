@@ -1,6 +1,7 @@
 package com.darja.moviedb.api.model
 
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 class ApiMovie {
     @SerializedName("title")
@@ -12,9 +13,8 @@ class ApiMovie {
     @SerializedName("poster_path")
     var thumbnail: String? = null
 
-    // todo add date parser
-//    @SerializedName("release_date")
-//    var releaseDate: String?
+    @SerializedName("release_date")
+    var releaseDate: Date? = null
 
     @SerializedName("popularity")
     var popularityScore: Float = 0f

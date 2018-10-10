@@ -9,6 +9,17 @@ ext {
 
     kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+    // Dagger
+    daggerLibraries = [
+        "com.google.dagger:dagger:${versions.dagger}",
+        "com.google.dagger:dagger-android:${versions.dagger}",
+        "com.google.dagger:dagger-android-support:${versions.dagger}"
+    ]
+    daggerCompilers = [
+        "com.google.dagger:dagger-compiler:${versions.dagger}",
+        "com.google.dagger:dagger-android-processor:${versions.dagger}"
+    ]
+
     // Gson
     gson = 'com.google.code.gson:gson:2.8.2'
 
