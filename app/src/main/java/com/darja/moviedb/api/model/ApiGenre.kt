@@ -7,5 +7,5 @@ class ApiGenre {
     var id: Int = 0
 
     @SerializedName("name")
-    var name: String? = null
+    lateinit var title: String
 }
