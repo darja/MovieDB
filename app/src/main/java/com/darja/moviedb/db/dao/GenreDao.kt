@@ -1,11 +1,25 @@
 package com.darja.moviedb.db.dao
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
+import android.arch.persistence.room.*
 import com.darja.moviedb.db.model.Genre
+import com.darja.moviedb.util.DPLog
 
 @Dao
 interface GenreDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(item: Genre): Long
+
+    @Update
+    fun update(item: Genre)
+
+    @Transaction
+    fun upsert(item: Genre) {
+        val id = insert(item)
+        if (id < 0) {
+            update(item)
+            DPLog.w("Genre updated: %s", item.title)
+        } else {
+            DPLog.d("Genre inserted: %s", item.title)
+        }
+    }
 }

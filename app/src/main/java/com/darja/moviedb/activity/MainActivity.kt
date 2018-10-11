@@ -41,8 +41,7 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<ApiGenresList>, response: Response<ApiGenresList>) {
                 response.body()
                     ?.forEach{
-                        val id = genreDao.insert(Genre(it))
-                        DPLog.d("Genre: [%s]: %s", it.title, id)
+                        genreDao.upsert(Genre(it))
                     }
             }
         })
