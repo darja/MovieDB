@@ -12,6 +12,12 @@ interface GenreDao {
     @Update
     fun update(item: Genre)
 
+    @Query("select * from genres")
+    fun select(): Array<Genre>
+
+    @Query("select * from genres where genreId in(:ids)")
+    fun select(ids: Array<Int>): Array<Genre>
+
     @Transaction
     fun upsert(item: Genre) {
         val id = insert(item)

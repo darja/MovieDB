@@ -43,21 +43,31 @@ class MainActivity : AppCompatActivity() {
                     ?.forEach{
                         genreDao.upsert(Genre(it))
                     }
+                requestPopular()
             }
         })
+    }
 
+    private fun requestPopular() {
         api.getPopularMovies().enqueue(object: Callback<ApiMoviesPage> {
             override fun onResponse(call: Call<ApiMoviesPage>, response: Response<ApiMoviesPage>) {
                 response.body()?.movies
                     ?.forEach{
-                        movieDao.upsert(Movie(it))
+                        val apiMovie = it
+                        val genreIds = it.genreIds
+                        apiMovie.genres =
+                            if (genreIds != null)
+                                genreDao.select(genreIds)
+                            else null
+
+                        val movie = Movie(it)
+                        movieDao.upsert(movie)
                     }
             }
 
             override fun onFailure(call: Call<ApiMoviesPage>, t: Throwable) {
                 DPLog.e("Cannot request popular")
             }
-
         })
     }
 }

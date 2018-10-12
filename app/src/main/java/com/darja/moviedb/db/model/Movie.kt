@@ -22,6 +22,7 @@ class Movie() {
     @ColumnInfo var revenue: Int? = null
     @ColumnInfo var runtime: Int? = null
     @ColumnInfo var homepage: String? = null
+    @ColumnInfo var genres: String? = null
 
     constructor(src: ApiMovie): this() {
         append(src)
@@ -37,5 +38,6 @@ class Movie() {
         revenue = src.revenue
         runtime = src.runtime
         homepage = src.homepage
+        genres = src.genres?.joinToString { it.title }
     }
 }
