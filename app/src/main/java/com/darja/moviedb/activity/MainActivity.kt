@@ -1,15 +1,15 @@
 package com.darja.moviedb.activity
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import com.darja.moviedb.R
 import com.darja.moviedb.api.TmdbApi
 import com.darja.moviedb.api.model.ApiGenresList
-import com.darja.moviedb.api.model.ApiMoviesPage
 import com.darja.moviedb.db.dao.GenreDao
 import com.darja.moviedb.db.dao.MovieDao
+import com.darja.moviedb.db.dao.MovieSearchDao
+import com.darja.moviedb.db.dao.MovieSearchItemDao
 import com.darja.moviedb.db.model.Genre
-import com.darja.moviedb.db.model.Movie
+import com.darja.moviedb.ui.fragment.movieslist.MoviesListFragment
 import com.darja.moviedb.util.DPLog
 import dagger.android.AndroidInjection
 import retrofit2.Call
@@ -17,21 +17,25 @@ import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     @Inject
     internal lateinit var api: TmdbApi
 
-    @Inject
-    internal lateinit var genreDao: GenreDao
-
-    @Inject
-    internal lateinit var movieDao: MovieDao
+    @Inject internal lateinit var genreDao: GenreDao
+    @Inject internal lateinit var movieDao: MovieDao
+    @Inject internal lateinit var searchDao: MovieSearchDao
+    @Inject internal lateinit var searchContentDao: MovieSearchItemDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // todo check search.updatedAll
+        // todo cascade delete
+        searchContentDao.deleteAll()
+        searchDao.deleteAll()
 
         api.getGenres().enqueue(object: Callback<ApiGenresList> {
             override fun onFailure(call: Call<ApiGenresList>, t: Throwable) {
@@ -42,32 +46,15 @@ class MainActivity : AppCompatActivity() {
                 response.body()
                     ?.forEach{
                         genreDao.upsert(Genre(it))
+                        showSearchResult()
                     }
-                requestPopular()
             }
         })
     }
 
-    private fun requestPopular() {
-        api.getPopularMovies().enqueue(object: Callback<ApiMoviesPage> {
-            override fun onResponse(call: Call<ApiMoviesPage>, response: Response<ApiMoviesPage>) {
-                response.body()?.movies
-                    ?.forEach{
-                        val apiMovie = it
-                        val genreIds = it.genreIds
-                        apiMovie.genres =
-                            if (genreIds != null)
-                                genreDao.select(genreIds)
-                            else null
-
-                        val movie = Movie(it)
-                        movieDao.upsert(movie)
-                    }
-            }
-
-            override fun onFailure(call: Call<ApiMoviesPage>, t: Throwable) {
-                DPLog.e("Cannot request popular")
-            }
-        })
+    private fun showSearchResult() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, MoviesListFragment())
+            .commit()
     }
 }

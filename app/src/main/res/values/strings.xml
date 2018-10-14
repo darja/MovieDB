@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MovieDB</string>
+
+    <string name="error_cannot_reach_server">Cannot reach server</string>
 </resources>

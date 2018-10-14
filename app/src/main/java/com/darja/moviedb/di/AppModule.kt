@@ -9,7 +9,7 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-@Module
+@Module(includes = [(ViewModelModule::class)])
 class AppModule(private val app: Application) {
     @Provides
     @Singleton

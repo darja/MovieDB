@@ -10,6 +10,9 @@ interface MovieSearchItemDao {
     @Insert
     fun insert(item: MovieSearchItem)
 
+    @Query("delete from movie_search_content")
+    fun deleteAll()
+
     @Query("delete from movie_search_content where searchId = :searchId")
     fun cleanSearchContent(searchId: Long)
 }

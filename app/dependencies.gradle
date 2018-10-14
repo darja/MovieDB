@@ -10,6 +10,14 @@ ext {
 
     kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+    // Support Libraries
+    support = [
+        appCompat:  "com.android.support:appcompat-v7:${versions.support}",
+        core:       "com.android.support:support-core-utils:${versions.support}",
+        design:     "com.android.support:design:${versions.support}",
+    ]
+    supportLibraries = support.values()
+
     // Dagger
     daggerLibraries = [
         "com.google.dagger:dagger:${versions.dagger}",
