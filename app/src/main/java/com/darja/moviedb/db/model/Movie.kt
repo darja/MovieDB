@@ -40,4 +40,6 @@ class Movie() {
         homepage = src.homepage
         genres = src.genres?.joinToString { it.title }
     }
+
+    override fun toString() = "Movie[$movieId:$title]"
 }

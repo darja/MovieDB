@@ -17,4 +17,6 @@ class Genre() {
         genreId = src.id
         title = src.title
     }
+
+    override fun toString() = "Genre[$genreId:\t$title]"
 }

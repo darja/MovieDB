@@ -1,25 +1,16 @@
 package com.darja.moviedb.db.dao
 
-import android.arch.persistence.room.*
+import android.arch.persistence.room.Dao
+import android.arch.persistence.room.Query
 import com.darja.moviedb.db.model.Movie
-import com.darja.moviedb.util.DPLog
 
 @Dao
-interface MovieDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(item: Movie): Long
+abstract class MovieDao: DaoWithUpsert<Movie>() {
+    @Query("select m.* from movies m left join movie_search_content mc on m.movieId = mc.movieId where mc.searchId=:searchId")
+    abstract fun getSearchContent(searchId: Long): List<Movie>
 
-    @Update
-    fun update(item: Movie)
+    @Query("select `rowId` from movies where movieId = :movieId limit 1")
+    abstract fun select(movieId: Long): Long
 
-    @Transaction
-    fun upsert(item: Movie) {
-        val id = insert(item)
-        if (id < 0) {
-            DPLog.w("Movie updated: %s", item.title)
-            update(item)
-        } else {
-            DPLog.d("Movie inserted: %s", item.title)
-        }
-    }
+    override fun select(item: Movie) = select(item.movieId)
 }

@@ -1,31 +1,19 @@
 package com.darja.moviedb.db.dao
 
-import android.arch.persistence.room.*
+import android.arch.persistence.room.Dao
+import android.arch.persistence.room.Query
 import com.darja.moviedb.db.model.Genre
-import com.darja.moviedb.util.DPLog
 
 @Dao
-interface GenreDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(item: Genre): Long
-
-    @Update
-    fun update(item: Genre)
-
+abstract class GenreDao: DaoWithUpsert<Genre>() {
     @Query("select * from genres")
-    fun select(): Array<Genre>
+    abstract fun select(): Array<Genre>
 
     @Query("select * from genres where genreId in(:ids)")
-    fun select(ids: Array<Int>): Array<Genre>
+    abstract fun select(ids: Array<Int>): Array<Genre>
 
-    @Transaction
-    fun upsert(item: Genre) {
-        val id = insert(item)
-        if (id < 0) {
-            update(item)
-            DPLog.w("Genre updated: %s", item.title)
-        } else {
-            DPLog.d("Genre inserted: %s", item.title)
-        }
-    }
+    @Query("select `rowId` from genres where genreId = :genreId")
+    abstract fun select(genreId: Int): Long
+
+    override fun select(item: Genre) = select(item.genreId)
 }

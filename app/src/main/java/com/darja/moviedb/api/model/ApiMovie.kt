@@ -14,7 +14,7 @@ class ApiMovie {
     @SerializedName("genre_ids")
     var genreIds: Array<Int>? = null
 
-    @SerializedName("genre_ids")
+    @SerializedName("genres")
     var genres: Array<Genre>? = null
 
     @SerializedName("poster_path")
