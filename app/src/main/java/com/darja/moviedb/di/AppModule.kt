@@ -35,4 +35,10 @@ class AppModule(private val app: Application) {
 
     @Provides
     fun providesMovieDao(db: MoviesDatabase) = db.movieDao()
+
+    @Provides
+    fun providesSearchDao(db: MoviesDatabase) = db.searchDao()
+
+    @Provides
+    fun providesSearchContentDao(db: MoviesDatabase) = db.searchContentDao()
 }
