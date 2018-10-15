@@ -91,11 +91,23 @@
             />
         </LinearLayout>
 
+        <!-- Genres -->
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:id="@+id/genres"
+                  android:layout_below="@id/thumbnail"
+                  android:layout_marginTop="@dimen/default_margin"
+                  android:text="Action"
+                  android:background="@color/colorAccent"
+                  android:textColor="#ffffff"
+                  android:padding="4dp"
+        />
+
         <!-- Description-->
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                   android:id="@+id/description"
-                  android:layout_marginTop="@dimen/default_margin"
-                  android:layout_below="@id/thumbnail"
+                  android:layout_marginTop="@dimen/med_margin"
+                  android:layout_below="@id/genres"
+                  android:text="description"
         />
     </RelativeLayout>
 </ScrollView>

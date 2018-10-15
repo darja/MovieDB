@@ -19,6 +19,7 @@ class MovieDetailsFragmentView {
     @BindView(R.id.title) protected lateinit var title: TextView
     @BindView(R.id.thumbnail) protected lateinit var thumbnail: SimpleDraweeView
     @BindView(R.id.release_year) protected lateinit var releaseYear: TextView
+    @BindView(R.id.genres) protected lateinit var genres: TextView
     @BindView(R.id.runtime_title) protected lateinit var runtimeTitle: View
     @BindView(R.id.runtime) protected lateinit var runtime: TextView
     @BindView(R.id.revenue_title) protected lateinit var revenueTitle: View
@@ -34,6 +35,7 @@ class MovieDetailsFragmentView {
         revenue.setTextOrHide(formatRevenue(movie.revenue), revenueTitle)
         homepage.setTextOrHide(movie.homepage, homepageTitle)
         description.setTextOrHide(movie.description)
+        genres.setTextOrHide(movie.genres)
         thumbnail.setImageURI(movie.smallThumbnail)
     }
 
