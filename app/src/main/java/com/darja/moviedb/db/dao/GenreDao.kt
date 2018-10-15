@@ -15,5 +15,8 @@ abstract class GenreDao: DaoWithUpsert<Genre>() {
     @Query("select `rowId` from genres where genreId = :genreId")
     abstract fun select(genreId: Int): Long
 
+    @Query("delete from genres")
+    abstract fun clear()
+
     override fun select(item: Genre) = select(item.genreId)
 }

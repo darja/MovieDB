@@ -53,6 +53,7 @@ class MoviesListViewModel @Inject constructor(): ViewModel() {
     }
 
     private fun searchPopular() {
+        // todo show from cache if not expired
         val call = api.getPopularMovies()
         apiCall = call
         call

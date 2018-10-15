@@ -2,7 +2,41 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/fragment_container"
-    tools:context=".activity.MainActivity" />
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+>
+    <!-- Fragment container -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fragment_container"
+        tools:context=".activity.main.MainActivity" />
+
+    <!-- Initialization progress -->
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_gravity="center"
+                  android:orientation="vertical"
+                  android:id="@+id/progress"
+    >
+
+        <ProgressBar android:layout_width="wrap_content" android:layout_height="wrap_content"
+                     android:layout_gravity="center"
+        />
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_gravity="center"
+                  android:layout_marginTop="4dp"
+                  android:text="@string/progress_init"
+
+        />
+    </LinearLayout>
+
+    <!-- Error message -->
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:id="@+id/error"
+              android:layout_gravity="center"
+              android:textSize="20sp"
+              android:textColor="@android:color/black"
+              android:visibility="gone"
+    />
+</FrameLayout>

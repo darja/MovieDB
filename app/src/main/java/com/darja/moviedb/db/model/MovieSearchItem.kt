@@ -7,12 +7,13 @@ import android.arch.persistence.room.Index
 @Entity(tableName = "movie_search_content",
     primaryKeys = [ ("searchId"), ("movieId")],
     indices = [
-        (Index("searchId")),
-        (Index("movieId"))],
+        (Index("searchId", unique = false)),
+        (Index("movieId", unique = false))],
     foreignKeys = [
         (ForeignKey(entity = MovieSearch::class,
             parentColumns = [("rowId")],
-            childColumns = [("searchId")])),
+            childColumns = [("searchId")],
+            onDelete = ForeignKey.CASCADE)),
         (ForeignKey(entity = Movie::class,
             parentColumns = [("movieId")],
             childColumns = [("movieId")]))
