@@ -21,7 +21,7 @@ class Movie() {
     @ColumnInfo var popularityScore: Float = 0f
     @ColumnInfo var description: String? = null
     @ColumnInfo var revenue: Int? = null
-    @ColumnInfo var runtime: Int? = null
+    @ColumnInfo var runtime: Int = 0
     @ColumnInfo var homepage: String? = null
     @ColumnInfo var genres: String? = null
 
@@ -43,7 +43,7 @@ class Movie() {
         popularityScore = src.popularityScore
         description = src.description
         revenue = src.revenue
-        runtime = src.runtime
+        runtime = src.runtime ?: 0
         homepage = src.homepage
         genres = src.genres?.joinToString { it.title }
     }

@@ -39,5 +39,10 @@ class MoviesListFragmentView {
     fun showMovies(movies: List<Movie>) {
         moviesAdapter.movies = movies
         moviesAdapter.notifyDataSetChanged()
+        hideEmptyMessage()
+    }
+
+    fun setMovieClickListener(listener: ((Movie) -> Any)?) {
+        moviesAdapter.clickListener = listener
     }
 }

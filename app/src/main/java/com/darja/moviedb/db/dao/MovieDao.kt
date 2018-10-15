@@ -10,7 +10,10 @@ abstract class MovieDao: DaoWithUpsert<Movie>() {
     abstract fun getSearchContent(searchId: Long): List<Movie>
 
     @Query("select `rowId` from movies where movieId = :movieId limit 1")
-    abstract fun select(movieId: Long): Long
+    abstract fun selectRowId(movieId: Long): Long
 
-    override fun select(item: Movie) = select(item.movieId)
+    override fun select(item: Movie) = selectRowId(item.movieId)
+
+    @Query("select * from movies where movieId = :movieId limit 1")
+    abstract fun select(movieId: Long): Movie
 }

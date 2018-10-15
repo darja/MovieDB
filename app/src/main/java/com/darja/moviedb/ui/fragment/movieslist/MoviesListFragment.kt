@@ -3,7 +3,9 @@ package com.darja.moviedb.ui.fragment.movieslist
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import com.darja.moviedb.R
+import com.darja.moviedb.ui.MovieSelected
 import com.darja.moviedb.ui.fragment.BaseFragment
+import org.greenrobot.eventbus.EventBus
 
 class MoviesListFragment: BaseFragment<MoviesListViewModel, MoviesListFragmentView>() {
     override fun getLayoutResId() = R.layout.fragment_movies_list
@@ -15,11 +17,9 @@ class MoviesListFragment: BaseFragment<MoviesListViewModel, MoviesListFragmentVi
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         view.onActivityCreated(activity)
-    }
 
-    override fun onStart() {
-        super.onStart()
         observeViewModel()
+        setupViewEvents()
     }
 
     private fun observeViewModel() {
@@ -39,5 +39,9 @@ class MoviesListFragment: BaseFragment<MoviesListViewModel, MoviesListFragmentVi
         })
 
         viewModel.isRequesting.observe(this, Observer { view.setProgressVisibility(it) })
+    }
+
+    private fun setupViewEvents() {
+        view.setMovieClickListener { EventBus.getDefault().post(MovieSelected(it)) }
     }
 }

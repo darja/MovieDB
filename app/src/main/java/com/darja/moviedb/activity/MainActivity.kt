@@ -9,9 +9,13 @@ import com.darja.moviedb.db.dao.MovieDao
 import com.darja.moviedb.db.dao.MovieSearchDao
 import com.darja.moviedb.db.dao.MovieSearchItemDao
 import com.darja.moviedb.db.model.Genre
+import com.darja.moviedb.ui.MovieSelected
+import com.darja.moviedb.ui.fragment.moviedetails.MovieDetailsFragment
 import com.darja.moviedb.ui.fragment.movieslist.MoviesListFragment
 import com.darja.moviedb.util.DPLog
 import dagger.android.AndroidInjection
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -52,9 +56,28 @@ class MainActivity : BaseActivity() {
         })
     }
 
+    public override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    public override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
+
     private fun showSearchResult() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, MoviesListFragment())
+            .commit()
+    }
+
+    @Suppress("ProtectedInFinal")
+    @Subscribe
+    protected fun onMovieSelected(event: MovieSelected) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, MovieDetailsFragment.newInstance(event.movie.movieId))
+            .addToBackStack(null)
             .commit()
     }
 }

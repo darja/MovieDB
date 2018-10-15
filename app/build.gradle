@@ -32,6 +32,7 @@ dependencies {
     implementation retrofit
     implementation okhttp
     implementation fresco
+    implementation eventBus
 
     implementation butterknife
     kapt butterknifeCompiler

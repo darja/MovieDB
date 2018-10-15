@@ -1,6 +1,7 @@
 package com.darja.moviedb.di
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import com.darja.moviedb.ui.fragment.moviedetails.MovieDetailsViewModel
 import com.darja.moviedb.ui.fragment.movieslist.MoviesListViewModel
 import dagger.Binds
 import dagger.Module
@@ -14,5 +15,10 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(MoviesListViewModel::class)
-    abstract fun bindsConverterViewModel(vm: MoviesListViewModel): ViewModel
+    abstract fun bindsMoviesListViewModel(vm: MoviesListViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MovieDetailsViewModel::class)
+    abstract fun bindsMovieDetailsViewModel(vm: MovieDetailsViewModel): ViewModel
 }
