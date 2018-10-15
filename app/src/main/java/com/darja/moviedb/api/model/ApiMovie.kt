@@ -1,6 +1,5 @@
 package com.darja.moviedb.api.model
 
-import com.darja.moviedb.db.model.Genre
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
@@ -15,7 +14,7 @@ class ApiMovie {
     var genreIds: Array<Int>? = null
 
     @SerializedName("genres")
-    var genres: Array<Genre>? = null
+    var genres: Array<ApiGenre>? = null
 
     @SerializedName("poster_path")
     var thumbnail: String? = null

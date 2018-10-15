@@ -10,7 +10,7 @@ import retrofit2.http.Query
 
 interface TmdbApi {
     @GET("movie/{movieId}")
-    fun getMovieDetails(@Path("movieId") movieId: Int): Call<ApiMovie>
+    fun getMovieDetails(@Path("movieId") movieId: Long): Call<ApiMovie>
 
     @GET("movie/popular")
     fun getPopularMovies(@Query("page") page: Int = 1): Call<ApiMoviesPage>

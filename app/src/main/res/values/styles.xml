@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="FactTitle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#404040</item>
+        <item name="android:layout_marginTop">@dimen/med_margin</item>
+    </style>
 </resources>

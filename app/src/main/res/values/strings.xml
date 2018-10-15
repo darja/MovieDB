@@ -4,7 +4,7 @@
     <string name="error_cannot_reach_server">Cannot reach server</string>
     <string name="error_no_movies_found">No Movies Found</string>
 
-    <string name="runtime">&lt;b&gt;Runtime: &lt;/b&gt;%1$s</string>
+    <string name="runtime">Runtime</string>
     <string name="language">Language</string>
     <string name="revenue">Revenue</string>
     <string name="homepage">Homepage</string>

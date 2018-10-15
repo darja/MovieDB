@@ -39,7 +39,7 @@ class MovieDetailsFragment: BaseFragment<MovieDetailsViewModel, MovieDetailsFrag
     private fun observeViewModel() {
         viewModel.getMovie().observe(this, Observer {
             if (it != null) {
-                view.showMovieDetails(resources, it)
+                view.showMovieDetails(it)
             } else {
                 // todo show error message
             }

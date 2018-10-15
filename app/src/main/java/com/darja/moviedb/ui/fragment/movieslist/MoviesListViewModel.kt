@@ -87,16 +87,14 @@ class MoviesListViewModel @Inject constructor(): ViewModel() {
         val searchId = searchDao.upsert(search)
 
         response.movies
-            .forEach{
-                val apiMovie = it
-                val genreIds = it.genreIds
-                apiMovie.genres =
-                    if (genreIds != null)
-                        genreDao.select(genreIds)
-                    else null
+            .forEach{ apiMovie ->
+                val genreIds = apiMovie.genreIds
 
                 // save to movies
-                val movie = Movie(it)
+                val movie = Movie(apiMovie)
+                movie.genres = if (genreIds != null)
+                        genreDao.select(genreIds).joinToString { it.title }
+                    else null
                 movieDao.upsert(movie)
 
                 // link to movies list

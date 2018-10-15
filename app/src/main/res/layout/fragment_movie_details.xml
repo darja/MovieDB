@@ -2,18 +2,21 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent" android:layout_height="match_parent"
 >
-    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:padding="@dimen/default_margin"
+    >
         <!-- Thumbnail -->
         <com.facebook.drawee.view.SimpleDraweeView
             android:layout_width="180dp" android:layout_height="320dp"
             android:id="@+id/thumbnail"
+            android:background="@color/colorAccent"
         />
 
         <!--Facts-->
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:padding="@dimen/med_margin"
                       android:orientation="vertical"
                       android:layout_toEndOf="@id/thumbnail"
+                      android:layout_marginStart="@dimen/default_margin"
         >
             <!-- Title -->
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -32,16 +35,66 @@
 
             <!-- Runtime -->
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:id="@+id/runtime"
+                      android:id="@+id/runtime_title"
                       android:text="@string/runtime"
-                      android:layout_marginTop="@dimen/med_margin"
+                      style="@style/FactTitle"
+                      android:visibility="gone"
+            />
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/runtime"
+                      android:text="1h 20m"
+                      android:visibility="gone"
+            />
+
+            <!-- Revenue -->
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/revenue_title"
+                      android:text="@string/revenue"
+                      style="@style/FactTitle"
+                      android:visibility="gone"
+            />
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/revenue"
+                      android:text="$1 000 000"
+                      android:visibility="gone"
+            />
+
+            <!-- Language -->
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/language_title"
+                      android:text="@string/language"
+                      style="@style/FactTitle"
+                      android:visibility="gone"
+            />
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/language"
+                      android:text="English"
+                      android:visibility="gone"
+            />
+
+            <!-- Homepage -->
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/homepage_title"
+                      android:text="@string/homepage"
+                      style="@style/FactTitle"
+                      android:visibility="gone"
+            />
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/homepage"
+                      android:text="www.ya.ru"
+                      android:autoLink="web"
+                      android:visibility="gone"
             />
         </LinearLayout>
 
         <!-- Description-->
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                   android:id="@+id/description"
-                  android:layout_margin="@dimen/med_margin"
+                  android:layout_marginTop="@dimen/default_margin"
                   android:layout_below="@id/thumbnail"
         />
     </RelativeLayout>
