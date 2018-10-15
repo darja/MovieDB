@@ -18,6 +18,7 @@ class MovieDetailsViewModel @Inject constructor(): ViewModel() {
     @Inject lateinit var api: TmdbApi
 
     private var movieLiveData = MutableLiveData<Movie>()
+    val movieLoadedLiveData = MutableLiveData<Boolean>()
 
     var movieId: Long = 0
 
@@ -40,7 +41,7 @@ class MovieDetailsViewModel @Inject constructor(): ViewModel() {
         call.enqueue(object: Callback<ApiMovie> {
             override fun onFailure(call: Call<ApiMovie>, t: Throwable) {
                 DPLog.e(t)
-                // todo show error message
+                movieLoadedLiveData.postValue(false)
             }
 
             override fun onResponse(call: Call<ApiMovie>, response: Response<ApiMovie>) {
@@ -49,6 +50,9 @@ class MovieDetailsViewModel @Inject constructor(): ViewModel() {
                     val movie = Movie(body)
                     movieDao.update(movie)
                     movieLiveData.postValue(movie)
+                    movieLoadedLiveData.postValue(true)
+                } else {
+                    movieLoadedLiveData.postValue(false)
                 }
             }
         })

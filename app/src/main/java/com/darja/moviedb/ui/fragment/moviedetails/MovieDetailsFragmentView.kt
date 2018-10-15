@@ -2,10 +2,12 @@
 
 package com.darja.moviedb.ui.fragment.moviedetails
 
+import android.content.Context
 import android.text.TextUtils
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import butterknife.BindView
 import com.darja.moviedb.R
 import com.darja.moviedb.db.model.Movie
@@ -31,7 +33,7 @@ class MovieDetailsFragmentView {
     @BindView(R.id.language) protected lateinit var language: TextView
     @BindView(R.id.description) protected lateinit var description: TextView
 
-    fun showMovieDetails(movie: Movie) {
+    fun bindMovieDetails(movie: Movie) {
         title.setTextOrHide(movie.title)
         releaseYear.setTextOrHide(if (movie.releaseDate > 0) yearFormat.format(movie.releaseDate) else null)
         runtime.setTextOrHide(formatRuntime(movie.runtime), runtimeTitle)
@@ -41,9 +43,11 @@ class MovieDetailsFragmentView {
         language.setTextOrHide(movie.language, languageTitle)
         thumbnail.setImageURI(movie.smallThumbnail)
 
-        if (!TextUtils.isEmpty(movie.homepage)) {
-            homepage.visibility = View.VISIBLE
-        }
+        homepage.visibility = if (TextUtils.isEmpty(movie.homepage)) View.GONE else View.VISIBLE
+    }
+
+    fun showError(context: Context?, error: String) {
+        Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
     }
 
     fun setHomepageClickListener(listener: View.OnClickListener) {

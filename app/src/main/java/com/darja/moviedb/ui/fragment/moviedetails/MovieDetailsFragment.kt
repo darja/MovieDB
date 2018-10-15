@@ -52,9 +52,12 @@ class MovieDetailsFragment: BaseFragment<MovieDetailsViewModel, MovieDetailsFrag
     private fun observeViewModel() {
         viewModel.getMovie().observe(this, Observer {
             if (it != null) {
-                view.showMovieDetails(it)
-            } else {
-                // todo show error message
+                view.bindMovieDetails(it)
+            }
+        })
+        viewModel.movieLoadedLiveData.observe(this, Observer { loaded ->
+            if (loaded == false) {
+                view.showError(activity, getString(R.string.error_cannot_load_movie_details))
             }
         })
     }
