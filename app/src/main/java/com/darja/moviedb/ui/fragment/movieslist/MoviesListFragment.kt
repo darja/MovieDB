@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import butterknife.ButterKnife
 import com.darja.moviedb.R
 import com.darja.moviedb.ui.fragment.BaseFragment
-import com.darja.moviedb.util.DPLog
 
 class MoviesListFragment: BaseFragment<MoviesListViewModel>() {
     private lateinit var view: MoviesListFragmentView
@@ -24,13 +23,25 @@ class MoviesListFragment: BaseFragment<MoviesListViewModel>() {
         return root
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        view.onActivityCreated(activity)
+    }
+
     override fun onStart() {
         super.onStart()
         observeViewModel()
     }
 
     private fun observeViewModel() {
-        viewModel.getSearchResult().observe(this, Observer { DPLog.d("Search finished: %s items", it?.size) })
+        viewModel.getSearchResult().observe(this, Observer {
+            if (it != null && it.isNotEmpty()) {
+                view.showMovies(it)
+            } else {
+                view.showMovies(emptyList())
+                view.showEmptyMessage(getString(R.string.error_no_movies_found))
+            }
+        })
 
         viewModel.error.observe(this, Observer {
             if (it != null) {

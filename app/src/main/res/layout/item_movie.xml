@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- Thumbnail -->
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:layout_width="90dp" android:layout_height="160dp"
+        android:id="@+id/thumbnail"
+        android:background="#fafafa"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:layout_marginRight="@dimen/default_margin"
+        app:placeholderImage="@android:drawable/sym_def_app_icon"
+    />
+
+    <!-- Popularity Score -->
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:id="@+id/popularity_score"
+              android:layout_alignParentEnd="true"
+              android:layout_alignParentRight="true"
+              android:layout_marginEnd="@dimen/med_margin"
+              android:layout_margin="@dimen/med_margin"
+              android:layout_centerVertical="true"
+              android:textStyle="bold"
+              android:textSize="30sp"
+              android:textColor="@android:color/black"
+              android:text="710"
+    />
+
+    <!-- Title -->
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:id="@+id/title"
+              android:layout_toEndOf="@id/thumbnail"
+              android:layout_toStartOf="@id/popularity_score"
+              android:layout_marginTop="@dimen/default_margin"
+              android:text="Title"
+              android:textStyle="bold"
+              android:textSize="20sp"
+              android:textColor="@android:color/black"
+    />
+
+    <!-- Release Year -->
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:id="@+id/release_year"
+              android:layout_toEndOf="@id/thumbnail"
+              android:layout_toStartOf="@id/popularity_score"
+              android:layout_below="@id/title"
+              android:text="2014"
+    />
+
+    <!-- Genre -->
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:id="@+id/genre"
+              android:layout_toEndOf="@id/thumbnail"
+              android:layout_toStartOf="@id/popularity_score"
+              android:layout_below="@id/release_year"
+              android:layout_marginTop="@dimen/med_margin"
+              android:text="Comedy, Action"
+    />
+
+    <View android:layout_width="match_parent" android:layout_height="1dp"
+          android:background="@color/divider"
+          android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

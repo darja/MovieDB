@@ -2,4 +2,5 @@
     <string name="app_name">MovieDB</string>
 
     <string name="error_cannot_reach_server">Cannot reach server</string>
+    <string name="error_no_movies_found">No Movies Found</string>
 </resources>
