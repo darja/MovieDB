@@ -26,6 +26,8 @@ class MovieDetailsFragmentView {
     @BindView(R.id.revenue) protected lateinit var revenue: TextView
     @BindView(R.id.homepage_title) protected lateinit var homepageTitle: View
     @BindView(R.id.homepage) protected lateinit var homepage: TextView
+    @BindView(R.id.language_title) protected lateinit var languageTitle: View
+    @BindView(R.id.language) protected lateinit var language: TextView
     @BindView(R.id.description) protected lateinit var description: TextView
 
     fun showMovieDetails(movie: Movie) {
@@ -36,6 +38,7 @@ class MovieDetailsFragmentView {
         homepage.setTextOrHide(movie.homepage, homepageTitle)
         description.setTextOrHide(movie.description)
         genres.setTextOrHide(movie.genres)
+        language.setTextOrHide(movie.language, languageTitle)
         thumbnail.setImageURI(movie.smallThumbnail)
     }
 
@@ -65,7 +68,7 @@ class MovieDetailsFragmentView {
     }
 
     private fun formatRevenue(revenue: Int?): String? {
-        if (revenue == null) {
+        if (revenue == null || revenue == 0) {
             return null
         }
 

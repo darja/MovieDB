@@ -36,4 +36,7 @@ class ApiMovie {
 
     @SerializedName("homepage")
     var homepage: String? = null
+
+    @SerializedName("original_language")
+    var language: String? = null
 }

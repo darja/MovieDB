@@ -6,6 +6,7 @@ import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
 import android.text.TextUtils
 import com.darja.moviedb.api.model.ApiMovie
+import java.util.*
 
 @Entity(tableName = "movies",
     indices = [Index("movieId", unique = true)]
@@ -24,6 +25,7 @@ class Movie() {
     @ColumnInfo var runtime: Int = 0
     @ColumnInfo var homepage: String? = null
     @ColumnInfo var genres: String? = null
+    @ColumnInfo var language: String? = null
 
     val smallThumbnail: String
         get() =
@@ -46,6 +48,10 @@ class Movie() {
         runtime = src.runtime ?: 0
         homepage = src.homepage
         genres = src.genres?.joinToString { it.title }
+
+        if (src.language != null) {
+            language = Locale(src.language).displayLanguage
+        }
     }
 
     fun needsMoreDetails() = arrayOf(revenue, homepage).all { it == null } && runtime == 0
