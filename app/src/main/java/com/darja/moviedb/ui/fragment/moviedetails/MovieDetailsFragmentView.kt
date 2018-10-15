@@ -2,7 +2,9 @@
 
 package com.darja.moviedb.ui.fragment.moviedetails
 
+import android.text.TextUtils
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import butterknife.BindView
 import com.darja.moviedb.R
@@ -24,8 +26,7 @@ class MovieDetailsFragmentView {
     @BindView(R.id.runtime) protected lateinit var runtime: TextView
     @BindView(R.id.revenue_title) protected lateinit var revenueTitle: View
     @BindView(R.id.revenue) protected lateinit var revenue: TextView
-    @BindView(R.id.homepage_title) protected lateinit var homepageTitle: View
-    @BindView(R.id.homepage) protected lateinit var homepage: TextView
+    @BindView(R.id.homepage) protected lateinit var homepage: Button
     @BindView(R.id.language_title) protected lateinit var languageTitle: View
     @BindView(R.id.language) protected lateinit var language: TextView
     @BindView(R.id.description) protected lateinit var description: TextView
@@ -35,11 +36,18 @@ class MovieDetailsFragmentView {
         releaseYear.setTextOrHide(if (movie.releaseDate > 0) yearFormat.format(movie.releaseDate) else null)
         runtime.setTextOrHide(formatRuntime(movie.runtime), runtimeTitle)
         revenue.setTextOrHide(formatRevenue(movie.revenue), revenueTitle)
-        homepage.setTextOrHide(movie.homepage, homepageTitle)
         description.setTextOrHide(movie.description)
         genres.setTextOrHide(movie.genres)
         language.setTextOrHide(movie.language, languageTitle)
         thumbnail.setImageURI(movie.smallThumbnail)
+
+        if (!TextUtils.isEmpty(movie.homepage)) {
+            homepage.visibility = View.VISIBLE
+        }
+    }
+
+    fun setHomepageClickListener(listener: View.OnClickListener) {
+        homepage.setOnClickListener(listener)
     }
 
     private fun formatRuntime(runtime: Int): String? {

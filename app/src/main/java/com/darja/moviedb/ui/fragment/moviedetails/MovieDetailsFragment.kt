@@ -1,7 +1,10 @@
 package com.darja.moviedb.ui.fragment.moviedetails
 
 import android.arch.lifecycle.Observer
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import com.darja.moviedb.R
 import com.darja.moviedb.ui.fragment.BaseFragment
 
@@ -31,9 +34,19 @@ class MovieDetailsFragment: BaseFragment<MovieDetailsViewModel, MovieDetailsFrag
         viewModel.movieId = arguments?.getLong(ARG_MOVIE_ID) ?: 0
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
         observeViewModel()
+        setupViewEvents()
+    }
+
+    private fun setupViewEvents() {
+        view.setHomepageClickListener(View.OnClickListener {
+            val homepage = viewModel.getMovie().value?.homepage
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(homepage))
+            startActivity(intent)
+        })
     }
 
     private fun observeViewModel() {

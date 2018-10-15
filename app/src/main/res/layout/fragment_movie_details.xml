@@ -76,18 +76,12 @@
             />
 
             <!-- Homepage -->
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:id="@+id/homepage_title"
-                      android:text="@string/homepage"
-                      style="@style/FactTitle"
-                      android:visibility="gone"
-            />
-
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:id="@+id/homepage"
-                      android:text="www.ya.ru"
-                      android:autoLink="web"
-                      android:visibility="gone"
+            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:id="@+id/homepage"
+                    android:text="@string/homepage"
+                    android:layout_marginTop="@dimen/default_margin"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:visibility="visible"
             />
         </LinearLayout>
 
@@ -97,7 +91,7 @@
                   android:layout_below="@id/thumbnail"
                   android:layout_marginTop="@dimen/default_margin"
                   android:text="Action"
-                  android:background="@color/colorAccent"
+                  android:background="@color/colorPrimary"
                   android:textColor="#ffffff"
                   android:padding="4dp"
         />
