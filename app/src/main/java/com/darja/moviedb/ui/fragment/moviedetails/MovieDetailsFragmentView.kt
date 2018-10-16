@@ -35,7 +35,7 @@ class MovieDetailsFragmentView {
 
     fun bindMovieDetails(movie: Movie) {
         title.setTextOrHide(movie.title)
-        releaseYear.setTextOrHide(if (movie.releaseDate > 0) yearFormat.format(movie.releaseDate) else null)
+        releaseYear.setTextOrHide(if (movie.releaseDate != null) yearFormat.format(movie.releaseDate) else null)
         runtime.setTextOrHide(formatRuntime(movie.runtime), runtimeTitle)
         revenue.setTextOrHide(formatRevenue(movie.revenue), revenueTitle)
         description.setTextOrHide(movie.description)
@@ -54,8 +54,8 @@ class MovieDetailsFragmentView {
         homepage.setOnClickListener(listener)
     }
 
-    private fun formatRuntime(runtime: Int): String? {
-        if (runtime == 0) {
+    private fun formatRuntime(runtime: Int?): String? {
+        if (runtime == null || runtime == 0) {
             return null
         }
 

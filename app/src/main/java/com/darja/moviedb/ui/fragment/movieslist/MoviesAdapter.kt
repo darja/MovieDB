@@ -47,7 +47,6 @@ class MoviesAdapter: RecyclerView.Adapter<MovieViewHolder>() {
             else String.format("%.0f", movie.popularityScore))
 
         holder.root.setOnClickListener {
-            DPLog.d("Item clicked: [${movie.title}]")
             clickListener?.invoke(movie)
         }
     }

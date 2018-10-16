@@ -31,14 +31,18 @@ class AppModule(private val app: Application) {
     }
 
     @Provides
+    @Singleton
     fun providesGenreDao(db: MoviesDatabase) = db.genreDao()
 
     @Provides
+    @Singleton
     fun providesMovieDao(db: MoviesDatabase) = db.movieDao()
 
     @Provides
+    @Singleton
     fun providesSearchDao(db: MoviesDatabase) = db.searchDao()
 
     @Provides
+    @Singleton
     fun providesSearchContentDao(db: MoviesDatabase) = db.searchContentDao()
 }

@@ -18,11 +18,11 @@ class Movie() {
 
     @ColumnInfo var title: String? = null
     @ColumnInfo var relativeThumbnailPath: String? = null
-    @ColumnInfo var releaseDate: Long = 0
-    @ColumnInfo var popularityScore: Float = 0f
+    @ColumnInfo var releaseDate: Long? = null
+    @ColumnInfo var popularityScore: Float? = null
     @ColumnInfo var description: String? = null
     @ColumnInfo var revenue: Int? = null
-    @ColumnInfo var runtime: Int = 0
+    @ColumnInfo var runtime: Int? = null
     @ColumnInfo var homepage: String? = null
     @ColumnInfo var genres: String? = null
     @ColumnInfo var language: String? = null
@@ -34,18 +34,14 @@ class Movie() {
             else ""
 
     constructor(src: ApiMovie): this() {
-        append(src)
-    }
-
-    fun append(src: ApiMovie) {
         movieId = src.id
         title = src.title
         relativeThumbnailPath = src.thumbnail
-        releaseDate = src.releaseDate?.time ?: 0
+        releaseDate = src.releaseDate?.time
         popularityScore = src.popularityScore
         description = src.description
         revenue = src.revenue
-        runtime = src.runtime ?: 0
+        runtime = src.runtime
         homepage = src.homepage
         genres = src.genres?.joinToString { it.title }
 
@@ -54,7 +50,20 @@ class Movie() {
         }
     }
 
-    fun needsMoreDetails() = arrayOf(revenue, homepage).all { it == null } && runtime == 0
+    fun append(src: Movie) {
+        title = src.title ?: title
+        relativeThumbnailPath = src.relativeThumbnailPath ?: relativeThumbnailPath
+        releaseDate = src.releaseDate ?: releaseDate
+        popularityScore = src.popularityScore ?: popularityScore
+        description = src.description ?: description
+        revenue = src.revenue ?: revenue
+        runtime = src.runtime ?: runtime
+        homepage = src.homepage ?: homepage
+        genres = src.genres ?: genres
+        language = src.language ?: language
+    }
+
+    fun needsMoreDetails() = arrayOf(revenue, homepage, runtime).all { it == null }
 
     override fun toString() = "Movie[$movieId:$title]"
 

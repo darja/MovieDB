@@ -48,7 +48,7 @@ class MovieDetailsViewModel @Inject constructor(): ViewModel() {
                 val body = response.body()
                 if (body != null) {
                     val movie = Movie(body)
-                    movieDao.update(movie)
+                    movieDao.upsert(movie)
                     movieLiveData.postValue(movie)
                     movieLoadedLiveData.postValue(true)
                 } else {
