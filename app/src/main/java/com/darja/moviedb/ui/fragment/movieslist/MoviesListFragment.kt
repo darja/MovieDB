@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import com.darja.moviedb.R
 import com.darja.moviedb.ui.MovieSelected
 import com.darja.moviedb.ui.fragment.BaseFragment
+import com.darja.moviedb.ui.util.ScreenUtil
 import org.greenrobot.eventbus.EventBus
 
 class MoviesListFragment: BaseFragment<MoviesListViewModel, MoviesListFragmentView>() {
@@ -54,7 +55,10 @@ class MoviesListFragment: BaseFragment<MoviesListViewModel, MoviesListFragmentVi
     private fun setupViewEvents() {
         view.setMovieClickListener { EventBus.getDefault().post(MovieSelected(it)) }
 
-        view.searchQuerySubmitted = { viewModel.performSearch(it) }
+        view.searchQuerySubmitted = {
+            viewModel.performSearch(it)
+            ScreenUtil.hideSoftKeyboard(activity)
+        }
 
         view.searchQueryClosed = { viewModel.loadPopular() }
     }
