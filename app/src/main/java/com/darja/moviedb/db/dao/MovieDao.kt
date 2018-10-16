@@ -6,7 +6,12 @@ import com.darja.moviedb.db.model.Movie
 
 @Dao
 abstract class MovieDao: DaoWithUpsert<Movie>() {
-    @Query("select m.* from movies m left join movie_search_content mc on m.movieId = mc.movieId where mc.searchId=:searchId")
+    @Query("""
+        select m.* from movies m
+        left join movie_search_content mc on m.movieId = mc.movieId
+        where mc.searchId=:searchId
+        order by m.popularityScore desc
+        """)
     abstract fun getSearchContent(searchId: Long): List<Movie>
 
     @Query("select `rowId` from movies where movieId = :movieId limit 1")
