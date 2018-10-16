@@ -30,9 +30,10 @@ class MoviesListViewModel @Inject constructor(): ViewModel() {
 
     private var apiCall: Call<*>? = null
 
+    private var lastSearchId: Long? = null
+
     val error = MutableLiveData<Int>()
     val isRequesting = MutableLiveData<Boolean>()
-
     private val searchResult = MutableLiveData<List<Movie>>()
 
     override fun onCleared() {
@@ -44,6 +45,24 @@ class MoviesListViewModel @Inject constructor(): ViewModel() {
                 DPLog.w("API call cancelled")
             }
         } catch (ignored: Exception) {}
+    }
+
+    internal fun refreshSearch() {
+        val searchId = lastSearchId
+
+        if (searchId != null) {
+            val lastSearch = searchDao.select(searchId)
+            if (lastSearch != null) {
+                searchDao.clearSearch(searchId)
+
+                if (lastSearch.query != null) {
+                    performSearch(lastSearch.query!!)
+
+                } else if (lastSearch.category == MovieSearch.CATEGORY_POPULAR) {
+                    loadPopular()
+                }
+            }
+        }
     }
 
     internal fun getSearchResult(): LiveData<List<Movie>> {
@@ -72,6 +91,8 @@ class MoviesListViewModel @Inject constructor(): ViewModel() {
             return
         }
 
+        apiCall?.cancel()
+
         val call = createCall.invoke()
         apiCall = call
         call
@@ -96,6 +117,7 @@ class MoviesListViewModel @Inject constructor(): ViewModel() {
     }
 
     private fun showCachedSearchResult(searchId: Long) {
+        lastSearchId = searchId
         searchResult.postValue(movieDao.getSearchContent(searchId))
     }
 

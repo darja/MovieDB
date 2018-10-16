@@ -2,6 +2,7 @@
 
 package com.darja.moviedb.ui.fragment.movieslist
 
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -17,6 +18,7 @@ import com.darja.moviedb.db.model.Movie
 import com.darja.moviedb.util.DPLog
 
 class MoviesListFragmentView {
+    @BindView(R.id.refresh) protected lateinit var refresh: SwipeRefreshLayout
     @BindView(R.id.list) protected lateinit var list: RecyclerView
     @BindView(R.id.empty_message) protected lateinit var emptyMessage: TextView
     @BindView(R.id.progress) protected lateinit var progress: View
@@ -24,8 +26,9 @@ class MoviesListFragmentView {
 
     private val moviesAdapter = MoviesAdapter()
 
-    var searchQuerySubmitted: ((String) -> Unit)? = null
-    var searchQueryClosed: (() -> Unit)? = null
+    var onSearchQuerySubmitted: ((String) -> Unit)? = null
+    var onSearchQueryClosed: (() -> (Unit))? = null
+    var onRefreshRequested: (() -> (Unit))? = null
 
     fun onActivityCreated(activity: AppCompatActivity?) {
         list.layoutManager = LinearLayoutManager(activity)
@@ -33,6 +36,11 @@ class MoviesListFragmentView {
 
         activity?.setSupportActionBar(toolbar)
         toolbar.setTitle(R.string.popular)
+
+        refresh.setOnRefreshListener {
+            DPLog.checkpoint()
+            onRefreshRequested?.invoke()
+        }
     }
 
     fun setProgressVisibility(visible: Boolean?) {
@@ -52,6 +60,7 @@ class MoviesListFragmentView {
         moviesAdapter.movies = movies
         moviesAdapter.notifyDataSetChanged()
         hideEmptyMessage()
+        refresh.isRefreshing = false
     }
 
     fun setMovieClickListener(listener: ((Movie) -> Any)?) {
@@ -64,8 +73,8 @@ class MoviesListFragmentView {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                return if (searchQuerySubmitted != null) {
-                    searchQuerySubmitted?.invoke(query)
+                return if (onSearchQuerySubmitted != null) {
+                    onSearchQuerySubmitted?.invoke(query)
                     true
                 } else {
                     false
@@ -84,7 +93,7 @@ class MoviesListFragmentView {
 
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
                 DPLog.checkpoint()
-                searchQueryClosed?.invoke()
+                onSearchQueryClosed?.invoke()
                 return true
             }
         })

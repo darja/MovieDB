@@ -55,11 +55,13 @@ class MoviesListFragment: BaseFragment<MoviesListViewModel, MoviesListFragmentVi
     private fun setupViewEvents() {
         view.setMovieClickListener { EventBus.getDefault().post(MovieSelected(it)) }
 
-        view.searchQuerySubmitted = {
+        view.onSearchQuerySubmitted = {
             viewModel.performSearch(it)
             ScreenUtil.hideSoftKeyboard(activity)
         }
 
-        view.searchQueryClosed = { viewModel.loadPopular() }
+        view.onSearchQueryClosed = viewModel::loadPopular
+
+        view.onRefreshRequested = viewModel::refreshSearch
     }
 }
