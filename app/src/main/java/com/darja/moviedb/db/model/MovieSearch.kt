@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import java.util.concurrent.TimeUnit
 
 @Entity(tableName = "movies_search",
     indices = [
@@ -22,6 +23,7 @@ class MovieSearch() {
 
     companion object {
         const val CATEGORY_POPULAR = "popular"
+        val SEARCH_LIFETIME = TimeUnit.HOURS.toMillis(1)
     }
 
     constructor(query: String?, category: String?, page: Int, totalPagesCount: Int): this() {
@@ -30,6 +32,8 @@ class MovieSearch() {
         this.page = page
         this.totalPagesCount = totalPagesCount
     }
+
+    fun isExpired() = updatedAt > System.currentTimeMillis() - SEARCH_LIFETIME
 
     override fun toString() = "MovieSearch: query[$query], category[$category], page[$page]"
 }

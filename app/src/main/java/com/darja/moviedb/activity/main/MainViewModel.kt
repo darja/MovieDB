@@ -6,15 +6,14 @@ import com.darja.moviedb.R
 import com.darja.moviedb.api.TmdbApi
 import com.darja.moviedb.api.model.ApiGenresList
 import com.darja.moviedb.db.dao.GenreDao
-import com.darja.moviedb.db.dao.MovieDao
 import com.darja.moviedb.db.dao.MovieSearchDao
 import com.darja.moviedb.db.dao.MovieSearchItemDao
 import com.darja.moviedb.db.model.Genre
+import com.darja.moviedb.db.model.MovieSearch
 import com.darja.moviedb.util.DPLog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @Suppress("ProtectedInFinal")
@@ -22,19 +21,14 @@ class MainViewModel @Inject constructor(): ViewModel() {
     @Inject protected lateinit var api: TmdbApi
 
     @Inject protected lateinit var genreDao: GenreDao
-    @Inject protected lateinit var movieDao: MovieDao
     @Inject protected lateinit var searchDao: MovieSearchDao
     @Inject protected lateinit var searchContentDao: MovieSearchItemDao
 
     val initialized = MutableLiveData<Boolean>()
     val error = MutableLiveData<Int>()
 
-    companion object {
-        val SEARCH_LIFETIME = TimeUnit.HOURS.toMillis(1)
-    }
-
     fun clearOutdated() {
-        val searchDeadline = System.currentTimeMillis() - SEARCH_LIFETIME
+        val searchDeadline = System.currentTimeMillis() - MovieSearch.SEARCH_LIFETIME
 
         searchDao.deleteOlderThan(searchDeadline)
         val searchContent = searchContentDao.select()

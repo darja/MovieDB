@@ -22,4 +22,7 @@ interface MovieSearchDao {
 
     @Query("select * from movies_search where `rowId`=:id")
     fun select(id: Long): MovieSearch?
+
+    @Query("delete from movies_search where `rowId`=:id")
+    fun delete(id: Long)
 }

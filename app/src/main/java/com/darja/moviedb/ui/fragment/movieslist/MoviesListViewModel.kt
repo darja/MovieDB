@@ -83,8 +83,12 @@ class MoviesListViewModel @Inject constructor(): ViewModel() {
 
     private fun loadSearchResult(query: String?, category: String?, createCall: () -> Call<ApiMoviesPage>) {
         DPLog.itrace(3, "Load query [%s], category [%s]", query, category)
-        val cached = searchDao.select(query, category)
-        // todo check expired?
+        var cached = searchDao.select(query, category)
+        if (cached?.isExpired() == true) {
+            searchDao.delete(cached.rowId)
+            cached = null
+        }
+
         if (cached != null) {
             DPLog.i("%s is cached", if (query != null) "Query[$query]" else "Category[$category]" )
             showCachedSearchResult(cached.rowId)
