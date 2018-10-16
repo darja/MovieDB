@@ -73,7 +73,6 @@ class MoviesListViewModel @Inject constructor(): ViewModel() {
     }
 
     internal fun performSearch(query: String) {
-        DPLog.checkpoint()
         loadSearchResult(query, null) { api.searchMovies(query) }
     }
 
@@ -98,9 +97,11 @@ class MoviesListViewModel @Inject constructor(): ViewModel() {
         call
             .enqueue(object: Callback<ApiMoviesPage> {
                 override fun onFailure(call: Call<ApiMoviesPage>, t: Throwable) {
-                    apiCall = null
-                    error.postValue(R.string.error_cannot_reach_server)
-                    isRequesting.postValue(false)
+                    if (!call.isCanceled) {
+                        apiCall = null
+                        error.postValue(R.string.error_cannot_reach_server)
+                        isRequesting.postValue(false)
+                    }
                 }
 
                 override fun onResponse(call: Call<ApiMoviesPage>, response: Response<ApiMoviesPage>) {
@@ -110,6 +111,8 @@ class MoviesListViewModel @Inject constructor(): ViewModel() {
                     if (body != null) {
                         val searchId = saveSearchInDb(query, category, body)
                         showCachedSearchResult(searchId)
+                    } else {
+                        error.postValue(R.string.error_cannot_reach_server)
                     }
                     isRequesting.postValue(false)
                 }

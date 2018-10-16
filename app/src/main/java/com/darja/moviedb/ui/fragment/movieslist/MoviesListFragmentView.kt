@@ -2,16 +2,16 @@
 
 package com.darja.moviedb.ui.fragment.movieslist
 
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import butterknife.BindView
 import com.darja.moviedb.R
 import com.darja.moviedb.db.model.Movie
@@ -46,7 +46,8 @@ class MoviesListFragmentView {
         refresh.isRefreshing = visible
     }
 
-    fun showEmptyMessage(message: String) {
+    private fun showEmptyMessage(message: String) {
+        DPLog.vtrace(5, "Empty message: %s", message)
         emptyMessage.text = message
         emptyMessage.visibility = View.VISIBLE
     }
@@ -59,6 +60,13 @@ class MoviesListFragmentView {
         moviesAdapter.movies = movies
         moviesAdapter.notifyDataSetChanged()
         hideEmptyMessage()
+        refresh.isRefreshing = false
+    }
+
+    fun showNoMovies(message: String) {
+        moviesAdapter.movies = null
+        moviesAdapter.notifyDataSetChanged()
+        showEmptyMessage(message)
         refresh.isRefreshing = false
     }
 

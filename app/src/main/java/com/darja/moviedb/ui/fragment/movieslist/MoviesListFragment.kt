@@ -1,10 +1,10 @@
 package com.darja.moviedb.ui.fragment.movieslist
 
-import androidx.lifecycle.Observer
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuInflater
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.darja.moviedb.R
 import com.darja.moviedb.ui.MovieSelected
 import com.darja.moviedb.ui.fragment.BaseFragment
@@ -35,22 +35,18 @@ class MoviesListFragment: BaseFragment<MoviesListViewModel, MoviesListFragmentVi
     }
 
     private fun observeViewModel() {
-        DPLog.w("Added observer")
         viewModel.getSearchResult().observe(this, Observer {
             DPLog.i("Movies changed")
             if (it != null && it.isNotEmpty()) {
                 view.showMovies(it)
             } else {
-                // todo view.showNoMovies(error: String)
-                view.showMovies(emptyList())
-                view.showEmptyMessage(getString(R.string.error_no_movies_found))
+                view.showNoMovies(getString(R.string.error_no_movies_found))
             }
         })
 
         viewModel.error.observe(this, Observer {
             if (it != null) {
-                // todo view.showNoMovies(error: String)
-                view.showEmptyMessage(getString(it))
+                view.showNoMovies(getString(it))
             }
         })
 
