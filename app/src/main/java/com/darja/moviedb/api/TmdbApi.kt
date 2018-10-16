@@ -15,6 +15,9 @@ interface TmdbApi {
     @GET("movie/popular")
     fun getPopularMovies(@Query("page") page: Int = 1): Call<ApiMoviesPage>
 
+    @GET("search/movie")
+    fun searchMovies(@Query("query") query: String, @Query("page") page: Int = 1): Call<ApiMoviesPage>
+
     @GET("genre/movie/list")
     fun getGenres(): Call<ApiGenresList>
 }

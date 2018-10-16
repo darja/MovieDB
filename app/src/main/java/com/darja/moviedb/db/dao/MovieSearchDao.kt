@@ -1,19 +1,19 @@
 package com.darja.moviedb.db.dao
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Query
+import android.arch.persistence.room.*
 import com.darja.moviedb.db.model.MovieSearch
 
 @Dao
-abstract class MovieSearchDao: DaoWithUpsert<MovieSearch>() {
-    @Query("select `rowId` from movies_search where `query`=:query or category=:category")
-    abstract fun select(query: String?, category: String?): Long
+interface MovieSearchDao {
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insert(item: MovieSearch): Long
+
+    @Update
+    fun update(item: MovieSearch)
 
     @Query("delete from movies_search where updatedAt < :date")
-    abstract fun deleteOlderThan(date: Long)
+    fun deleteOlderThan(date: Long)
 
-    override fun select(item: MovieSearch) = select(item.query, item.category)
-
-    @Query("select * from movies_search where category=:category")
-    abstract fun selectByCategory(category: String): MovieSearch?
+    @Query("select * from movies_search where `query`=:query or category=:category")
+    fun select(query: String?, category: String?): MovieSearch?
 }

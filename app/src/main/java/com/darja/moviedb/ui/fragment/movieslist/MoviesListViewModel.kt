@@ -54,20 +54,24 @@ class MoviesListViewModel @Inject constructor(): ViewModel() {
 
     internal fun performSearch(query: String) {
         DPLog.checkpoint()
-        // todo search
+        loadSearchResult(query, null) { api.searchMovies(query) }
     }
 
     private fun loadPopular() {
-        val cachedPopular = searchDao.selectByCategory(MovieSearch.CATEGORY_POPULAR)
+        loadSearchResult(null, MovieSearch.CATEGORY_POPULAR) { api.getPopularMovies() }
+    }
+
+    private fun loadSearchResult(query: String?, category: String?, createCall: () -> Call<ApiMoviesPage>) {
+        val cached = searchDao.select(query, category)
         // todo check expired?
-        if (cachedPopular != null) {
-            DPLog.i("Popular is cached")
-            showCachedSearchResult(cachedPopular.rowId)
+        if (cached != null) {
+            DPLog.i("%s is cached", if (query == null) "Query[$query]" else "Category[$category]" )
+            showCachedSearchResult(cached.rowId)
             isRequesting.postValue(false)
             return
         }
 
-        val call = api.getPopularMovies()
+        val call = createCall.invoke()
         apiCall = call
         call
             .enqueue(object: Callback<ApiMoviesPage> {
@@ -82,7 +86,7 @@ class MoviesListViewModel @Inject constructor(): ViewModel() {
                     val body = response.body()
 
                     if (body != null) {
-                        val searchId = saveSearchInDb(body)
+                        val searchId = saveSearchInDb(query, category, body)
                         showCachedSearchResult(searchId)
                     }
                     isRequesting.postValue(false)
@@ -97,12 +101,9 @@ class MoviesListViewModel @Inject constructor(): ViewModel() {
     /**
      * @return search result id
      */
-    private fun saveSearchInDb(response: ApiMoviesPage): Long {
-        val search = MovieSearch.createPopular()
-        search.page = response.page
-        search.totalPagesCount = response.totalPagesCount
-        search.updatedAt = System.currentTimeMillis()
-        val searchId = searchDao.upsert(search)
+    private fun saveSearchInDb(query: String?, category: String?, response: ApiMoviesPage): Long {
+        val search = MovieSearch(query, category, response.page, response.totalPagesCount)
+        val searchId = searchDao.insert(search)
 
         response.movies
             .forEach{ apiMovie ->

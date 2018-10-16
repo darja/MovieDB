@@ -8,9 +8,7 @@ import android.view.MenuInflater
 import com.darja.moviedb.R
 import com.darja.moviedb.ui.MovieSelected
 import com.darja.moviedb.ui.fragment.BaseFragment
-import com.darja.moviedb.util.DPLog
 import org.greenrobot.eventbus.EventBus
-
 
 class MoviesListFragment: BaseFragment<MoviesListViewModel, MoviesListFragmentView>() {
     override fun getLayoutResId() = R.layout.fragment_movies_list

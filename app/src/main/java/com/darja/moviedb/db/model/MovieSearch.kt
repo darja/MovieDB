@@ -22,12 +22,13 @@ class MovieSearch() {
 
     companion object {
         const val CATEGORY_POPULAR = "popular"
+    }
 
-        fun createPopular(): MovieSearch {
-            val search = MovieSearch()
-            search.category = CATEGORY_POPULAR
-            return search
-        }
+    constructor(query: String?, category: String?, page: Int, totalPagesCount: Int): this() {
+        this.query = query
+        this.category = category
+        this.page = page
+        this.totalPagesCount = totalPagesCount
     }
 
     override fun toString() = "MovieSearch: query[$query], category[$category], page[$page]"
