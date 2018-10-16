@@ -32,6 +32,7 @@ class MoviesListFragmentView {
         list.adapter = moviesAdapter
 
         activity?.setSupportActionBar(toolbar)
+        toolbar.setTitle(R.string.popular)
     }
 
     fun setProgressVisibility(visible: Boolean?) {
