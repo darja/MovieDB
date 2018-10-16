@@ -8,11 +8,13 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import butterknife.BindView
 import com.darja.moviedb.R
 import com.darja.moviedb.db.model.Movie
+import com.darja.moviedb.util.DPLog
 
 class MoviesListFragmentView {
     @BindView(R.id.list) protected lateinit var list: RecyclerView
@@ -23,6 +25,7 @@ class MoviesListFragmentView {
     private val moviesAdapter = MoviesAdapter()
 
     var searchQuerySubmitted: ((String) -> Unit)? = null
+    var searchQueryClosed: (() -> Unit)? = null
 
     fun onActivityCreated(activity: AppCompatActivity?) {
         list.layoutManager = LinearLayoutManager(activity)
@@ -57,6 +60,7 @@ class MoviesListFragmentView {
     fun setupSearchView(menu: Menu) {
         val searchMenuItem = menu.findItem(R.id.action_search) ?: return
         val searchView = searchMenuItem.actionView as SearchView
+
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 return if (searchQuerySubmitted != null) {
@@ -69,6 +73,18 @@ class MoviesListFragmentView {
 
             override fun onQueryTextChange(newText: String): Boolean {
                 return false
+            }
+        })
+
+        searchMenuItem.setOnActionExpandListener(object: MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                DPLog.checkpoint()
+                searchQueryClosed?.invoke()
+                return true
             }
         })
     }

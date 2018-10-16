@@ -19,15 +19,16 @@ import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
+@Suppress("ProtectedInFinal")
 class MoviesListViewModel @Inject constructor(): ViewModel() {
-    @Inject lateinit var api: TmdbApi
+    @Inject protected lateinit var api: TmdbApi
 
-    @Inject lateinit var genreDao: GenreDao
-    @Inject lateinit var movieDao: MovieDao
-    @Inject lateinit var searchDao: MovieSearchDao
-    @Inject lateinit var searchContentDao: MovieSearchItemDao
+    @Inject protected lateinit var genreDao: GenreDao
+    @Inject protected lateinit var movieDao: MovieDao
+    @Inject protected lateinit var searchDao: MovieSearchDao
+    @Inject protected lateinit var searchContentDao: MovieSearchItemDao
 
-    var apiCall: Call<*>? = null
+    private var apiCall: Call<*>? = null
 
     val error = MutableLiveData<Int>()
     val isRequesting = MutableLiveData<Boolean>()
@@ -57,7 +58,7 @@ class MoviesListViewModel @Inject constructor(): ViewModel() {
         loadSearchResult(query, null) { api.searchMovies(query) }
     }
 
-    private fun loadPopular() {
+    internal fun loadPopular() {
         loadSearchResult(null, MovieSearch.CATEGORY_POPULAR) { api.getPopularMovies() }
     }
 
@@ -65,7 +66,7 @@ class MoviesListViewModel @Inject constructor(): ViewModel() {
         val cached = searchDao.select(query, category)
         // todo check expired?
         if (cached != null) {
-            DPLog.i("%s is cached", if (query == null) "Query[$query]" else "Category[$category]" )
+            DPLog.i("%s is cached", if (query != null) "Query[$query]" else "Category[$category]" )
             showCachedSearchResult(cached.rowId)
             isRequesting.postValue(false)
             return
