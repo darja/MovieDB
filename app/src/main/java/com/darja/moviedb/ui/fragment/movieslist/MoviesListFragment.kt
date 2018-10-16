@@ -3,7 +3,6 @@ package com.darja.moviedb.ui.fragment.movieslist
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuInflater
 import com.darja.moviedb.R
@@ -30,20 +29,9 @@ class MoviesListFragment: BaseFragment<MoviesListViewModel, MoviesListFragmentVi
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        DPLog.checkpoint()
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
         activity?.menuInflater?.inflate(R.menu.movies_list, menu)
-        val myActionMenuItem = menu?.findItem(R.id.action_search)
-        val searchView = myActionMenuItem?.actionView as SearchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return false
-            }
-        })
+        view.setupSearchView(menu)
     }
 
     private fun observeViewModel() {
@@ -67,5 +55,6 @@ class MoviesListFragment: BaseFragment<MoviesListViewModel, MoviesListFragmentVi
 
     private fun setupViewEvents() {
         view.setMovieClickListener { EventBus.getDefault().post(MovieSelected(it)) }
+        view.searchQuerySubmitted = { viewModel.performSearch(it) }
     }
 }

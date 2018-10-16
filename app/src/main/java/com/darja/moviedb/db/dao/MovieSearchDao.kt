@@ -9,8 +9,11 @@ abstract class MovieSearchDao: DaoWithUpsert<MovieSearch>() {
     @Query("select `rowId` from movies_search where `query`=:query or category=:category")
     abstract fun select(query: String?, category: String?): Long
 
-    @Query("delete from movies_search where updatedAt > :date")
+    @Query("delete from movies_search where updatedAt < :date")
     abstract fun deleteOlderThan(date: Long)
 
     override fun select(item: MovieSearch) = select(item.query, item.category)
+
+    @Query("select * from movies_search where category=:category")
+    abstract fun selectByCategory(category: String): MovieSearch?
 }

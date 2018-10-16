@@ -5,7 +5,9 @@ package com.darja.moviedb.ui.fragment.movieslist
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
+import android.view.Menu
 import android.view.View
 import android.widget.TextView
 import butterknife.BindView
@@ -19,6 +21,8 @@ class MoviesListFragmentView {
     @BindView(R.id.toolbar) protected lateinit var toolbar: Toolbar
 
     private val moviesAdapter = MoviesAdapter()
+
+    var searchQuerySubmitted: ((String) -> Unit)? = null
 
     fun onActivityCreated(activity: AppCompatActivity?) {
         list.layoutManager = LinearLayoutManager(activity)
@@ -36,7 +40,7 @@ class MoviesListFragmentView {
         emptyMessage.visibility = View.VISIBLE
     }
 
-    fun hideEmptyMessage() {
+    private fun hideEmptyMessage() {
         emptyMessage.visibility = View.GONE
     }
 
@@ -48,5 +52,24 @@ class MoviesListFragmentView {
 
     fun setMovieClickListener(listener: ((Movie) -> Any)?) {
         moviesAdapter.clickListener = listener
+    }
+
+    fun setupSearchView(menu: Menu) {
+        val searchMenuItem = menu.findItem(R.id.action_search) ?: return
+        val searchView = searchMenuItem.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return if (searchQuerySubmitted != null) {
+                    searchQuerySubmitted?.invoke(query)
+                    true
+                } else {
+                    false
+                }
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+        })
     }
 }

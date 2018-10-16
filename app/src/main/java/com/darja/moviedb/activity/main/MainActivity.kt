@@ -10,7 +10,6 @@ import com.darja.moviedb.activity.BaseActivity
 import com.darja.moviedb.ui.MovieSelected
 import com.darja.moviedb.ui.fragment.moviedetails.MovieDetailsFragment
 import com.darja.moviedb.ui.fragment.movieslist.MoviesListFragment
-import com.darja.moviedb.util.DPLog
 import dagger.android.AndroidInjection
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -60,7 +59,6 @@ class MainActivity: BaseActivity() {
     }
 
     private fun showSearchResult() {
-        DPLog.checkpoint()
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, MoviesListFragment())
             .commit()

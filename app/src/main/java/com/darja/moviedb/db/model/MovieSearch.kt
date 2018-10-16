@@ -21,9 +21,11 @@ class MovieSearch() {
     @ColumnInfo var updatedAt: Long = System.currentTimeMillis()
 
     companion object {
+        const val CATEGORY_POPULAR = "popular"
+
         fun createPopular(): MovieSearch {
             val search = MovieSearch()
-            search.category = "popular"
+            search.category = CATEGORY_POPULAR
             return search
         }
     }

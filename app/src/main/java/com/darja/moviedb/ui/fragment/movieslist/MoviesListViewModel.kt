@@ -47,13 +47,26 @@ class MoviesListViewModel @Inject constructor(): ViewModel() {
 
     internal fun getSearchResult(): LiveData<List<Movie>> {
         if (searchResult.value == null) {
-            searchPopular()
+            loadPopular()
         }
         return searchResult
     }
 
-    private fun searchPopular() {
-        // todo show from cache if not expired
+    internal fun performSearch(query: String) {
+        DPLog.checkpoint()
+        // todo search
+    }
+
+    private fun loadPopular() {
+        val cachedPopular = searchDao.selectByCategory(MovieSearch.CATEGORY_POPULAR)
+        // todo check expired?
+        if (cachedPopular != null) {
+            DPLog.i("Popular is cached")
+            showCachedSearchResult(cachedPopular.rowId)
+            isRequesting.postValue(false)
+            return
+        }
+
         val call = api.getPopularMovies()
         apiCall = call
         call
@@ -70,11 +83,15 @@ class MoviesListViewModel @Inject constructor(): ViewModel() {
 
                     if (body != null) {
                         val searchId = saveSearchInDb(body)
-                        searchResult.postValue(movieDao.getSearchContent(searchId))
+                        showCachedSearchResult(searchId)
                     }
                     isRequesting.postValue(false)
                 }
             })
+    }
+
+    private fun showCachedSearchResult(searchId: Long) {
+        searchResult.postValue(movieDao.getSearchContent(searchId))
     }
 
     /**
