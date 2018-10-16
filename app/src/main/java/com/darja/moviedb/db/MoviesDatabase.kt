@@ -1,7 +1,7 @@
 package com.darja.moviedb.db
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.RoomDatabase
+import androidx.room.Database
+import androidx.room.RoomDatabase
 import com.darja.moviedb.db.dao.GenreDao
 import com.darja.moviedb.db.dao.MovieDao
 import com.darja.moviedb.db.dao.MovieSearchDao

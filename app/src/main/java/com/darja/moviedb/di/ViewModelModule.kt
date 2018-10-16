@@ -1,6 +1,6 @@
 package com.darja.moviedb.di
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.darja.moviedb.activity.main.MainViewModel
 import com.darja.moviedb.ui.fragment.moviedetails.MovieDetailsViewModel
 import com.darja.moviedb.ui.fragment.movieslist.MoviesListViewModel

@@ -1,6 +1,6 @@
 package com.darja.moviedb.db.dao
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import com.darja.moviedb.db.model.Movie
 import com.darja.moviedb.util.DPLog
 

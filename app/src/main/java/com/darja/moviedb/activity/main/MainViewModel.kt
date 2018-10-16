@@ -1,7 +1,7 @@
 package com.darja.moviedb.activity.main
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.darja.moviedb.R
 import com.darja.moviedb.api.TmdbApi
 import com.darja.moviedb.api.model.ApiGenresList

@@ -1,8 +1,8 @@
 package com.darja.moviedb.ui.fragment.moviedetails
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.darja.moviedb.api.TmdbApi
 import com.darja.moviedb.api.model.ApiMovie
 import com.darja.moviedb.db.dao.MovieDao

@@ -1,9 +1,9 @@
 package com.darja.moviedb.activity.main
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import butterknife.ButterKnife
 import com.darja.moviedb.R
 import com.darja.moviedb.activity.BaseActivity

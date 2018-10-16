@@ -1,20 +1,21 @@
 ext {
     versions = [
-        support:            "27.1.1",
+        androidx:           "1.0.0",
         dagger:             "2.13",
-        butterknife:        "8.8.1",
+        butterknife:        "9.0.0-rc1",
         retrofit:           "2.4.0",
         okhttp:             "3.10.0",
-        room:               "1.1.0"
+        room:               "2.0.0-rc01"
     ]
 
     kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     // Support Libraries
     support = [
-        appCompat:  "com.android.support:appcompat-v7:${versions.support}",
-        core:       "com.android.support:support-core-utils:${versions.support}",
-        design:     "com.android.support:design:${versions.support}",
+        appCompat:  "androidx.appcompat:appcompat:${versions.androidx}",
+        arch:       "androidx.lifecycle:lifecycle-extensions:2.0.0-rc01",
+//        core:       "com.android.support:support-core-utils:${versions.support}",
+        design:     "com.google.android.material:material:1.0.0-rc01",
     ]
     supportLibraries = support.values()
 
@@ -53,10 +54,9 @@ ext {
 
     // Room
     roomLibraries = [
-        "android.arch.persistence.room:runtime:${versions.room}",
-        "android.arch.lifecycle:extensions:1.1.0"
+        "androidx.room:room-runtime:${versions.room}",
     ]
-    roomCompiler = "android.arch.persistence.room:compiler:${versions.room}"
+    roomCompiler = "androidx.room:room-compiler:${versions.room}"
 
     // EventBus
     eventBus = 'org.greenrobot:eventbus:3.1.1'

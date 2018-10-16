@@ -1,9 +1,9 @@
 package com.darja.moviedb.db.model
 
-import android.arch.persistence.room.ColumnInfo
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.Index
-import android.arch.persistence.room.PrimaryKey
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
 import android.text.TextUtils
 import com.darja.moviedb.api.model.ApiMovie
 import java.util.*

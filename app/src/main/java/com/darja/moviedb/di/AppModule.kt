@@ -1,7 +1,7 @@
 package com.darja.moviedb.di
 
 import android.app.Application
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import android.content.Context
 import com.darja.moviedb.MovieDbApp
 import com.darja.moviedb.db.MoviesDatabase

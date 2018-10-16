@@ -1,8 +1,8 @@
 package com.darja.moviedb.ui.fragment.movieslist
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuInflater
 import com.darja.moviedb.R
