@@ -49,7 +49,7 @@ class MoviesListFragment: BaseFragment<MoviesListViewModel, MoviesListFragmentVi
             }
         })
 
-        viewModel.isRequesting.observe(this, Observer { view.setProgressVisibility(it) })
+        viewModel.isRequesting.observe(this, Observer { view.setProgressVisibility(it == true) })
     }
 
     private fun setupViewEvents() {

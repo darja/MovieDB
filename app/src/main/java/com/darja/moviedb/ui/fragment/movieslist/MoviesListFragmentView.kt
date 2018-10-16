@@ -21,7 +21,6 @@ class MoviesListFragmentView {
     @BindView(R.id.refresh) protected lateinit var refresh: SwipeRefreshLayout
     @BindView(R.id.list) protected lateinit var list: RecyclerView
     @BindView(R.id.empty_message) protected lateinit var emptyMessage: TextView
-    @BindView(R.id.progress) protected lateinit var progress: View
     @BindView(R.id.toolbar) protected lateinit var toolbar: Toolbar
 
     private val moviesAdapter = MoviesAdapter()
@@ -43,8 +42,8 @@ class MoviesListFragmentView {
         }
     }
 
-    fun setProgressVisibility(visible: Boolean?) {
-        progress.visibility = if (visible == true) View.VISIBLE else View.GONE
+    fun setProgressVisibility(visible: Boolean) {
+        refresh.isRefreshing = visible
     }
 
     fun showEmptyMessage(message: String) {
