@@ -2,9 +2,10 @@
 
 package com.darja.moviedb.ui.fragment.movieslist
 
-import android.app.Activity
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.TextView
 import butterknife.BindView
@@ -15,12 +16,15 @@ class MoviesListFragmentView {
     @BindView(R.id.list) protected lateinit var list: RecyclerView
     @BindView(R.id.empty_message) protected lateinit var emptyMessage: TextView
     @BindView(R.id.progress) protected lateinit var progress: View
+    @BindView(R.id.toolbar) protected lateinit var toolbar: Toolbar
 
     private val moviesAdapter = MoviesAdapter()
 
-    fun onActivityCreated(activity: Activity?) {
+    fun onActivityCreated(activity: AppCompatActivity?) {
         list.layoutManager = LinearLayoutManager(activity)
         list.adapter = moviesAdapter
+
+        activity?.setSupportActionBar(toolbar)
     }
 
     fun setProgressVisibility(visible: Boolean?) {

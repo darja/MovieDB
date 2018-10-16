@@ -5,6 +5,8 @@
     <string name="error_cannot_load_movie_details">Cannot load all movie details</string>
     <string name="error_no_movies_found">No Movies Found</string>
 
+    <string name="menu_search">Search</string>
+
     <string name="progress_init">Initializing…</string>
 
     <string name="runtime">Runtime</string>
