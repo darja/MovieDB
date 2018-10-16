@@ -34,6 +34,7 @@ class MoviesListViewModel @Inject constructor(): ViewModel() {
 
     val error = MutableLiveData<Int>()
     val isRequesting = MutableLiveData<Boolean>()
+    var lastSearchQuery: String? = null
     private val searchResult = MutableLiveData<List<Movie>>()
 
     override fun onCleared() {
@@ -81,6 +82,7 @@ class MoviesListViewModel @Inject constructor(): ViewModel() {
     }
 
     private fun loadSearchResult(query: String?, category: String?, createCall: () -> Call<ApiMoviesPage>) {
+        DPLog.itrace(3, "Load query [%s], category [%s]", query, category)
         val cached = searchDao.select(query, category)
         // todo check expired?
         if (cached != null) {
@@ -115,6 +117,7 @@ class MoviesListViewModel @Inject constructor(): ViewModel() {
                         error.postValue(R.string.error_cannot_reach_server)
                     }
                     isRequesting.postValue(false)
+                    lastSearchQuery = query
                 }
             })
     }

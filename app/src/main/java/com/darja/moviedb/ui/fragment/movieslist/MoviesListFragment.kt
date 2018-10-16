@@ -1,6 +1,7 @@
 package com.darja.moviedb.ui.fragment.movieslist
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuInflater
 import androidx.appcompat.app.AppCompatActivity
@@ -29,9 +30,22 @@ class MoviesListFragment: BaseFragment<MoviesListViewModel, MoviesListFragmentVi
         setHasOptionsMenu(true)
     }
 
+    override fun onPause() {
+        super.onPause()
+
+        view.onSearchQueryClosed = null
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
         activity?.menuInflater?.inflate(R.menu.movies_list, menu)
         view.setupSearchView(menu)
+
+        if (!TextUtils.isEmpty(viewModel.lastSearchQuery)) {
+            view.showSearch(viewModel.lastSearchQuery!!)
+            ScreenUtil.hideSoftKeyboard(activity)
+        }
+
+        view.onSearchQueryClosed = viewModel::loadPopular
     }
 
     private fun observeViewModel() {
@@ -60,8 +74,6 @@ class MoviesListFragment: BaseFragment<MoviesListViewModel, MoviesListFragmentVi
             viewModel.performSearch(it)
             ScreenUtil.hideSoftKeyboard(activity)
         }
-
-        view.onSearchQueryClosed = viewModel::loadPopular
 
         view.onRefreshRequested = viewModel::refreshSearch
     }

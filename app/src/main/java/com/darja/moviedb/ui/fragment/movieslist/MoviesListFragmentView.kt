@@ -22,6 +22,8 @@ class MoviesListFragmentView {
     @BindView(R.id.list) protected lateinit var list: RecyclerView
     @BindView(R.id.empty_message) protected lateinit var emptyMessage: TextView
     @BindView(R.id.toolbar) protected lateinit var toolbar: Toolbar
+    protected lateinit var searchView: SearchView
+    protected lateinit var searchMenuItem: MenuItem
 
     private val moviesAdapter = MoviesAdapter()
 
@@ -47,7 +49,6 @@ class MoviesListFragmentView {
     }
 
     private fun showEmptyMessage(message: String) {
-        DPLog.vtrace(5, "Empty message: %s", message)
         emptyMessage.text = message
         emptyMessage.visibility = View.VISIBLE
     }
@@ -75,8 +76,8 @@ class MoviesListFragmentView {
     }
 
     fun setupSearchView(menu: Menu) {
-        val searchMenuItem = menu.findItem(R.id.action_search) ?: return
-        val searchView = searchMenuItem.actionView as SearchView
+        searchMenuItem = menu.findItem(R.id.action_search) ?: return
+        searchView = searchMenuItem.actionView as SearchView
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -105,4 +106,11 @@ class MoviesListFragmentView {
             }
         })
     }
+
+    fun showSearch(query: String) {
+        searchMenuItem.expandActionView()
+        searchView.setQuery(query, false)
+    }
+
+    fun getSearchQueryString(): String? = if (searchMenuItem.isActionViewExpanded) searchView.query?.toString() else null
 }
