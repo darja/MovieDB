@@ -27,7 +27,7 @@ Every activity and fragment is split into following parts:
 
 Business objects are cached in SQLite database with following structure:
 
-![DB Scheme][doc/db_scheme.png]
+![DB Scheme](doc/db_scheme.png)
 
 Genres are requested and updated on every application start.
 
